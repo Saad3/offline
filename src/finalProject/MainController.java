@@ -1,8 +1,6 @@
 package finalProject;
 
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
-
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
@@ -30,9 +28,8 @@ public class MainController {
 
 
 
-
 		// DB connection
-		DbConnection db = new DbConnection("jdbc:mysql://localhost:3306/test?useUnicode=yes&characterEncoding=UTF-8","username","",twitter);
+		DbConnection db = new DbConnection("jdbc:mysql://localhost:3306/offline?useUnicode=yes&characterEncoding=UTF-8","root","",twitter);
 
 		TagsGenerator tagsGenerator ;
 		Listener listener ;

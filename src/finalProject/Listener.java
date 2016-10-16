@@ -116,7 +116,7 @@ public class Listener {
 
 		FilterQuery fq=new FilterQuery();
 		twitterStream.addListener(listener);
-		String keywords[] = {"#الافضل_الشتاء_ام_الصيف","#راح_نفلسكم_7"};
+		String keywords[] = {"#Ø§Ù„Ø§Ù�Ø¶Ù„_Ø§Ù„Ø´ØªØ§Ø¡_Ø§Ù…_Ø§Ù„ØµÙŠÙ�","#Ø±Ø§Ø­_Ù†Ù�Ù„Ø³ÙƒÙ…_7"};
 		fq.track(keywords);
 		twitterStream.filter(fq);
 		
@@ -137,26 +137,7 @@ public class Listener {
 				System.out.println("we will lesten on");
 				System.out.println(trends.getTrends()[0].getName()+"::"+trends.getTrends()[1].getName()+"::"+trends.getTrends()[2].getName());
 				TimeUnit.MINUTES.sleep(5);
-#السعوديه_استراليا
-#زد_فرصتك5
-الشوط الثاني
-#راح_نفلسكم_9
-#روان_بن_حسين_ماتبينا_نسوق
-حسن معاذ
-#الامارات_تايلند
-عمر هوساوي
-توقيت الهدف
-عمر عبدالرحمن
-هات الجبرين
-تيسير قول
-علي العابد
-عبدالملك الخيبري
-فهد العتيبي
-تيم كاهيل
-حماد العنزي
-#PoyrazKarayel
-#وين_بتروح_بالوكيند
-#اربح_ايفون٧_مع_تركي_قشلان
+
 			}
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block

@@ -20,7 +20,7 @@ public final class TagsGenerator {
 		.setOAuthAccessTokenSecret(accessTokenSecret);
 		twitter = new TwitterFactory(ob.build()).getInstance();
 		try {
-			trends = twitter.getPlaceTrends(23424938);	//23424938
+			trends = twitter.getPlaceTrends(23424938);	//23424938 SA
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -51,19 +51,7 @@ public class DbConnection {
 				republishQuery(item);
 
 			}
-			/*
-
-			if (item.isFavorited()){
-				for (int i = 0; i < item.getFavoriteCount(); i++) {
-					likeQuery(item);
-					Twitter twitter = new Twitter;
-					IDs retweterid = twitter.getRetweeterIds(item.getId(),-1);
-					likeQuery(item_id,retweterid.getIDs()[i]);
-				}
-			}
-
-
-			 */
+	
 
 			tagsQuery(item);
 			userQuery(item);
@@ -78,20 +66,21 @@ public class DbConnection {
 
 			PreparedStatement itemQuery;
 			//the query to insert in the DB
-			itemQuery = connection.prepareStatement("INSERT INTO `item`(`item_id`, `user_id`, `textual_content`,`retweet_count`, `favorite_count`, `timestamp`) VALUES (?,?,?,?,?,?)");
+			itemQuery = connection.prepareStatement("INSERT INTO `item`(`item_id`, `user_id`, `textual_content`,`url_count`, `tag_count`, `timestamp`) VALUES (?,?,?,?,?,?)");
 			itemQuery.setString(1, item.getId()+""); //insert the item id
 			itemQuery.setString(2, item.getUser().getId()+"");//insert user id
 			itemQuery.setString(3, item.getText());//insert text
-			if (item.isRetweeted()){
-				itemQuery.setInt(4, item.getRetweetCount());
+			if (item.getURLEntities().length!=0){
+				itemQuery.setInt(4, item.getURLEntities().length);
 			}else{
 				itemQuery.setInt(4,0);
 			}
-			if (item.isFavorited()){
-				itemQuery.setInt(5, item.getFavoriteCount());
+			if (item.getHashtagEntities().length!=0){
+				itemQuery.setInt(5, item.getHashtagEntities().length);
 			}else{
 				itemQuery.setInt(5, 0);
 			}
+			
 			itemQuery.setString(6, item.getCreatedAt()+"");//insert timestamp 
 			itemQuery.executeUpdate();
 
@@ -190,6 +179,8 @@ public class DbConnection {
 
 	}
 
+	/*
+
 	private void likeQuery(String item_id, String user_id){
 		try{
 
@@ -205,7 +196,8 @@ public class DbConnection {
 		}	
 
 	}
-
+*/
+	
 	private void tagsQuery(Status item){
 		try{
 
