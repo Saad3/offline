@@ -1,30 +1,13 @@
 package finalProject;
 
-import java.sql.*;
 
 public class TestingMain {
 
 	public static void main(String[] args) {
-		Connection connection;
-		ResultSet result;
-		try {
-		String password="";
-		String username="root";
-		String url="jdbc:mysql://localhost:3306/offline?useUnicode=yes&characterEncoding=UTF-8";
-		connection = DriverManager.getConnection(url, username, password);
 		
-		String x = "SELECT * FROM user WHERE location LIKE '%الرياض%' ";
+		int x[][] = new int[11][5];
 		
-			PreparedStatement statement1 = connection.prepareStatement(x);
-		
-			result = statement1.executeQuery();
-		      while(result.next()){
-			System.out.println(result.getString("location"));
-		      }
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
+		System.out.println(x[0].length);
 		
 		
 	}

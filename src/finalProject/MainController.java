@@ -1,5 +1,6 @@
 package finalProject;
 
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
@@ -7,9 +8,46 @@ import twitter4j.conf.ConfigurationBuilder;
 
 
 public class MainController {
+	private static String originalDB = "jdbc:mysql://localhost:3306/offline?useUnicode=yes&characterEncoding=UTF-8";
+
+	private static String optimizedDB = "jdbc:mysql://localhost:3306/optimized_offline_db?useUnicode=yes&characterEncoding=UTF-8";
 
 	public static void main(String[] args){
+		
+		
+		while(true){
 
+		Scanner input = new Scanner(System.in);
+
+		System.out.println("Welcome To Our Application!\n"
+				+ "Please Enter Your Choice:\n"
+				+ "1. Start Collecting Data \n"
+				+ "2. Run The Cleaner\n"
+				+ "99. Exit The Application");
+		int key=0;
+			key = input.nextInt();
+			switch (key) {
+			case 1:
+				collector();
+				break;
+			case 2:
+				cleaner();
+				System.out.println("");//done message!
+				break;
+
+			default:
+				input.close();
+				System.exit(0);
+				break;
+			}
+
+		}
+
+
+
+	}
+
+	private static void collector(){
 
 
 		//twitter Authentication
@@ -29,7 +67,7 @@ public class MainController {
 
 
 		// DB connection
-		DbConnection db = new DbConnection("jdbc:mysql://localhost:3306/offline?useUnicode=yes&characterEncoding=UTF-8","root","",twitter);
+		DbConnection db = new DbConnection(originalDB,"root","",twitter);
 
 		TagsGenerator tagsGenerator ;
 		Listener listener ;
@@ -37,10 +75,10 @@ public class MainController {
 
 		try {
 			while(true){
-				
+
 				tagsGenerator = new TagsGenerator(ConsumerKey,ConsumerSecret,AccessToken,AccessTokenSecret);
 				listener = new Listener(db,ConsumerKey,ConsumerSecret,AccessToken,AccessTokenSecret);
-				
+
 				System.out.println("The system will listen on:");
 				String key[] = tagsGenerator.generatTags(10);
 				for (String string : key) {
@@ -59,9 +97,14 @@ public class MainController {
 			e.printStackTrace();
 		}
 
-
-
-
 	}
 
+	private static void cleaner(){
+		
+		System.out.println("System will start clening now!");
+		Cleaner cleaner = new Cleaner(originalDB,"root","");
+		
+		cleaner.startClean();
+		
+	}
 }
