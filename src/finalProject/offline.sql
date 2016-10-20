@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 18, 2016 at 12:38 AM
+-- Generation Time: Oct 20, 2016 at 12:44 PM
 -- Server version: 10.1.16-MariaDB
 -- PHP Version: 5.6.24
 
@@ -23,10 +23,10 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `city`
+-- Table structure for table `cities`
 --
 
-CREATE TABLE `city` (
+CREATE TABLE `cities` (
   `id` int(4) NOT NULL,
   `parent_id` varchar(4) DEFAULT NULL,
   `english` varchar(27) DEFAULT NULL,
@@ -36,23 +36,23 @@ CREATE TABLE `city` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `city`
+-- Dumping data for table `cities`
 --
 
-INSERT INTO `city` (`id`, `parent_id`, `english`, `arabic`, `latitude`, `longitude`) VALUES
+INSERT INTO `cities` (`id`, `parent_id`, `english`, `arabic`, `latitude`, `longitude`) VALUES
 (1, '1', 'Riyadh', 'الرياض', '24.65', '46.77'),
-(2, '0', 'Mecca', 'مكة المكرمة', '21.43', '39.82'),
-(3, '0', 'Sarqiyah', 'المنطقة الشرقية', '', ''),
-(4, '0', 'Qasim', 'القصيم', '', ''),
-(5, '0', 'Hudud-Samaliyah', 'الحدود الشمالية', '', ''),
-(6, '0', 'Asir', 'عسير', '', ''),
-(7, '0', 'Jizan', 'جيزان', '16.9', '42.55'),
-(8, '0', 'Bahah', 'الباحه', '20.02', '41.47'),
-(9, '0', 'Tabuk', 'تبوك', '28.39', '36.57'),
-(10, '0', 'Jawf', 'الجوف', '29.81', '39.87'),
-(11, '0', 'hail', 'حائل', '', ''),
-(12, '0', 'Madinah', 'المدينة المنورة', '24.48', '39.59'),
-(13, '0', 'Najran', 'نجران', '17.5', '44.13'),
+(2, '2', 'Mecca', 'مكة المكرمة', '21.43', '39.82'),
+(3, '3', 'Sarqiyah', 'المنطقة الشرقية', '', ''),
+(4, '4', 'Qasim', 'القصيم', '', ''),
+(5, '5', 'Hudud-Samaliyah', 'الحدود الشمالية', '', ''),
+(6, '6', 'Asir', 'عسير', '', ''),
+(7, '7', 'Jizan', 'جيزان', '16.9', '42.55'),
+(8, '8', 'Bahah', 'الباحه', '20.02', '41.47'),
+(9, '9', 'Tabuk', 'تبوك', '28.39', '36.57'),
+(10, '10', 'Jawf', 'الجوف', '29.81', '39.87'),
+(11, '11', 'hail', 'حائل', '', ''),
+(12, '12', 'Madinah', 'المدينة المنورة', '24.48', '39.59'),
+(13, '13', 'Najran', 'نجران', '17.5', '44.13'),
 (14, '6', 'Abha', 'ابها', '18.23', '42.5'),
 (15, '7', 'Abu Aris', 'ابو عريش', '16.97', '42.83'),
 (16, '7', 'Abu Sala', 'ابو السلع', '', ''),
@@ -100,7 +100,6 @@ INSERT INTO `city` (`id`, `parent_id`, `english`, `arabic`, `latitude`, `longitu
 (58, '2', 'Hurmah', 'الخرمه', '21.9', '42.05'),
 (59, '7', 'husayni', 'الحسينى', '17.0', '42.68'),
 (60, '3', 'Huwaylidah', 'الخويلديه', '', ''),
-(61, '12', 'ID', 'العيض', '', ''),
 (62, '6', 'Itnayn', 'الاثنين', '18.04', '42.75'),
 (63, '3', 'Jafr', 'الجفر', '25.38', '49.72'),
 (64, '7', 'Jaradiyah', 'الجراديه', '16.58', '42.91'),
@@ -275,8 +274,8 @@ CREATE TABLE `geotag` (
 --
 
 CREATE TABLE `item` (
-  `item_id` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `user_id` varchar(255) NOT NULL,
+  `item_id` varchar(100) CHARACTER SET utf8 NOT NULL,
+  `user_id` varchar(100) NOT NULL,
   `textual_content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `url_count` int(3) DEFAULT '0',
   `tag_count` int(2) DEFAULT '0',
@@ -326,8 +325,10 @@ CREATE TABLE `tags` (
 CREATE TABLE `user` (
   `user_id` varchar(255) NOT NULL,
   `user_name` varchar(255) NOT NULL,
-  `original_location` varchar(255) DEFAULT NULL,
-  `city` varchar(50) DEFAULT NULL
+  `user_pio` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `location` varchar(255) DEFAULT NULL,
+  `city` varchar(50) DEFAULT NULL,
+  `states` varchar(5) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -344,12 +345,6 @@ CREATE TABLE `visual` (
 --
 -- Indexes for dumped tables
 --
-
---
--- Indexes for table `city`
---
-ALTER TABLE `city`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `contain`
@@ -370,7 +365,7 @@ ALTER TABLE `geotag`
 -- Indexes for table `item`
 --
 ALTER TABLE `item`
-  ADD PRIMARY KEY (`item_id`);
+  ADD PRIMARY KEY (`item_id`,`user_id`);
 
 --
 -- Indexes for table `like`
@@ -404,7 +399,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `tags`
 --
 ALTER TABLE `tags`
-  MODIFY `tag_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=422;
+  MODIFY `tag_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=398;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

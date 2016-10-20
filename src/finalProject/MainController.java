@@ -2,15 +2,11 @@ package finalProject;
 
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
-import twitter4j.Twitter;
-import twitter4j.TwitterFactory;
-import twitter4j.conf.ConfigurationBuilder;
+
 
 
 public class MainController {
 	private static String originalDB = "jdbc:mysql://localhost:3306/offline?useUnicode=yes&characterEncoding=UTF-8";
-
-	private static String optimizedDB = "jdbc:mysql://localhost:3306/optimized_offline_db?useUnicode=yes&characterEncoding=UTF-8";
 
 	public static void main(String[] args){
 		
@@ -56,6 +52,7 @@ public class MainController {
 		String AccessToken ="245278759-XnJon4fbGFNYdbW15nDZU4jt2syx0CFMTfbWpGRG";
 		String AccessTokenSecret="nDo3Rl3IGTMtweBhOEoize2L8vDrfnnDRbQ6yU9FyvvoV"; 
 
+		/*
 		ConfigurationBuilder ob =new ConfigurationBuilder(); 
 		ob.setDebugEnabled(true)
 		.setOAuthConsumerKey(ConsumerKey)
@@ -63,11 +60,11 @@ public class MainController {
 		.setOAuthAccessToken(AccessToken)
 		.setOAuthAccessTokenSecret(AccessTokenSecret);
 		Twitter twitter = new TwitterFactory(ob.build()).getInstance();
-
+*/
 
 
 		// DB connection
-		DbConnection db = new DbConnection(originalDB,"root","",twitter);
+		DbConnection db = new DbConnection(originalDB,"root","","offline");
 
 		TagsGenerator tagsGenerator ;
 		Listener listener ;
@@ -102,7 +99,7 @@ public class MainController {
 	private static void cleaner(){
 		
 		System.out.println("System will start clening now!");
-		Cleaner cleaner = new Cleaner(originalDB,"root","");
+		Cleaner cleaner = new Cleaner(originalDB,"root","","offline","optimized_offline_db");
 		
 		cleaner.startClean();
 		

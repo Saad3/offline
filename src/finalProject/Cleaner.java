@@ -8,14 +8,17 @@ public class Cleaner {
 	private Statement statement;
 	private ResultSet result;
 	private String[][] city;
+	private String sourceDb, destinationDb;
 
-	public Cleaner(String url, String username, String password) {
+	public Cleaner(String url, String username, String password, String sourceDb, String destinationDb) {
 
 		try {
 
 			Class.forName("com.mysql.jdbc.Driver");
 			connection = DriverManager.getConnection(url, username, password);
 			statement = connection.createStatement();
+			this.sourceDb=sourceDb;
+			this.destinationDb=destinationDb;
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -25,10 +28,30 @@ public class Cleaner {
 
 	public void startClean() {
 		retrieveCityNames();
-		if(city.length!=0)
-		cleanCityName();
+		if (city.length != 0) {
+			cleanCityName();
+		}
+		copyUsers();
 	}
+	
+	private void copyUsers(){
+		try {
+			
+			PreparedStatement query;
+			query = connection.prepareStatement("");
+		
+			query.executeQuery();
+		
+		
+		
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
+		
+	}
+	
 	// item cleaner
 
 	// user cleaner
@@ -69,7 +92,7 @@ public class Cleaner {
 			
 			PreparedStatement query;
 			for (int i = 0; i < city.length; i++) {
-				query = connection.prepareStatement("UPDATE `user` SET `city`=?,`states`=? WHERE (location LIKE ? OR location LIKE ?)");
+				query = connection.prepareStatement("UPDATE "+sourceDb+".user SET `city`=?,`states`=? WHERE (location LIKE ? OR location LIKE ?)");
 				query.setString(1,city[i][1]);
 				query.setString(2,city[i][0]);
 				query.setString(3,"%"+city[i][1]+"%");
