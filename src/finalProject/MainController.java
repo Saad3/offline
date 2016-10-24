@@ -28,7 +28,6 @@ public class MainController {
 				break;
 			case 2:
 				cleaner();
-				System.out.println("");//done message!
 				break;
 
 			default:
@@ -81,7 +80,7 @@ public class MainController {
 				for (String string : key) {
 					System.out.println(string);
 				}
-				listener.startListening(tagsGenerator.generatTags(3));
+				listener.startListening(tagsGenerator.generatTags(10));
 				System.out.println("The System is running now");
 				TimeUnit.MINUTES.sleep(10);
 				listener.stop();
@@ -102,6 +101,8 @@ public class MainController {
 		Cleaner cleaner = new Cleaner(originalDB,"root","","offline","optimized_offline_db");
 		
 		cleaner.startClean();
+		
+		System.out.println("Cleaning is Finished!");
 		
 	}
 }
