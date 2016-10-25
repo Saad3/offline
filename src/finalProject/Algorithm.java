@@ -31,12 +31,79 @@ public class Algorithm {
 		
 	}
 	
-	 
 	
 	private void startAgorthm(){
 		emotionFinder();
 	}
+	
+	
+	public void algorithm(){
+		
+		
+		try {
+			int maximumIteration=0;
+			int t=0;
+			while(t<= maximumIteration){
+				for (int U = 0; U < emotin.length; U++) {//U Sets of users.
+					for (int I = 0; I < emotin.length; I++) {//I Sets of items.
+						for (int T = 0; T < emotin.length; T++) {//T Sets of tags.
+							calculateEmotionalScore();
+							calculateItemTagRelevance();
+						}
+					}
+					
+				}
+				
+				for (int U = 0; U < emotin.length; U++) {
+					calculateUserUserSimilarity();
+				}
+				for (int I = 0; I < emotin.length; I++) {
+					calculateItemItemSimilarity();
+				}
+				for (int T = 0; T < emotin.length; T++) {
+					calculateTagTagSimilarity();
+				}
+				
+			}
+			
+			
+			
+			
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+	
+	
+	private void calculateTagTagSimilarity() {
+		// TODO Auto-generated method stub
+		
+	}
 
+
+	private void calculateItemItemSimilarity() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	private void calculateUserUserSimilarity() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	private void calculateItemTagRelevance() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	private void calculateEmotionalScore() {
+		// TODO Auto-generated method stub
+		
+	}
 
 
 	private void emotionFinder() {
@@ -60,7 +127,6 @@ public class Algorithm {
 	}
 
 
-
 	private boolean retrieveEmotion() {
 		try {
 			
@@ -75,7 +141,7 @@ public class Algorithm {
 			
 			for (int i = 0; i < emotin.length; i++) { // to store the emotion in array
 				result.next();
-				emotin[i][0] = result.getString("keyword_id");
+				emotin[i][0] = result.getString("keyword_id");//to insert it in the table "has emo"
 				emotin[i][1] = result.getString("keyword");
 			}
 			
