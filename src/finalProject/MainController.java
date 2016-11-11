@@ -19,6 +19,7 @@ public class MainController {
 				+ "Please Enter Your Choice:\n"
 				+ "1. Start Collecting Data \n"
 				+ "2. Run The Cleaner\n"
+				+ "3. Run The Algorithm\n"
 				+ "99. Exit The Application");
 		int key=0;
 			key = input.nextInt();
@@ -28,6 +29,10 @@ public class MainController {
 				break;
 			case 2:
 				cleaner();
+				break;
+			
+			case 3:
+				algorthm();
 				break;
 
 			default:
@@ -103,6 +108,13 @@ public class MainController {
 		cleaner.startClean();
 		
 		System.out.println("Cleaning is Finished!");
+		
+	}
+
+	private static void algorthm(){
+		Algorithm algorithm = new Algorithm(originalDB,"root","","offline","optimized_offline_db");
+		
+		algorithm.startAgorthm();
 		
 	}
 }

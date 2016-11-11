@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class Algorithm {
 
@@ -13,7 +14,9 @@ public class Algorithm {
 	private String offline;
 	private String optimized;
 	private String[][] emotin;
+	private ArrayList<String> tweet;
 	
+
 	public Algorithm( String url, String username, String password, String offline, String optimized){
 		
 		try {
@@ -22,7 +25,7 @@ public class Algorithm {
 			connection = DriverManager.getConnection(url, username, password);
 			this.offline=offline;
 			this.optimized=optimized;
-			
+			tweet = new ArrayList<String>();
 	
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -32,11 +35,18 @@ public class Algorithm {
 	}
 	
 	
-	private void startAgorthm(){
-		emotionFinder();
+	public void startAgorthm(){
+		//emotionFinder();
+		retrevtweets();
+		test();
 	}
-	
-	
+
+	private void test() {
+
+		System.out.println(tweet.size());
+	}
+
+
 	public void algorithm(){
 		
 		
@@ -75,32 +85,59 @@ public class Algorithm {
 		}
 	}
 	
+	private void calculateEmotionalScore() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	private void retrevtweets(){
+		
+		try {
+			
+			PreparedStatement res;
+			res = connection.prepareStatement("SELECT textual_content FROM "+optimized+".item WHERE 1");
+			result = res.executeQuery();
+
+			while(result.next()){
+
+				tweet.add(result.getString("textual_content"));
+				result.next();
+				
+			}
+			
+			
+			
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 	private void calculateTagTagSimilarity() {
 		// TODO Auto-generated method stub
 		
 	}
 
-
 	private void calculateItemItemSimilarity() {
 		// TODO Auto-generated method stub
 		
 	}
-
 
 	private void calculateUserUserSimilarity() {
 		// TODO Auto-generated method stub
 		
 	}
 
-
 	private void calculateItemTagRelevance() {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	private void calculateEmotionalScore() {
 		// TODO Auto-generated method stub
 		
 	}
@@ -125,7 +162,6 @@ public class Algorithm {
 		
 		
 	}
-
 
 	private boolean retrieveEmotion() {
 		try {
@@ -155,6 +191,9 @@ public class Algorithm {
 			return false;
 		}
 	}
+
+
+	
 	
 	
 	
