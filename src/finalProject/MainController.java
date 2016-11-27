@@ -3,7 +3,11 @@ package finalProject;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
-
+/**
+ * 
+ * @author lenovo
+ *
+ */
 
 public class MainController {
 	private static String originalDB = "jdbc:mysql://localhost:3306/offline?useUnicode=yes&characterEncoding=UTF-8";
@@ -15,23 +19,32 @@ public class MainController {
 
 		Scanner input = new Scanner(System.in);
 
-		System.out.println("Welcome To Our Application!\n"
+		System.out.println(""
+				+ "Welcome To Our Application!\n"
 				+ "Please Enter Your Choice:\n"
-				+ "1. Start Collecting Data \n"
-				+ "2. Run The Cleaner\n"
-				+ "3. Run The Algorithm\n"
-				+ "99. Exit The Application");
+				+ "1. Start Collecting Data Using Tags Generator\n"
+				+ "2. Start Collecting Data With Static Tags\n"
+				+ "3.Run The Cleaner\n"
+				+ "99. Run The Algorithm\n"
+				+ "OR 0. Exit The Application"
+				+ "");
 		int key=0;
 			key = input.nextInt();
 			switch (key) {
+			
 			case 1:
 				collector();
 				break;
+				
 			case 2:
-				cleaner();
+				staticTags();
 				break;
 			
 			case 3:
+				cleaner();
+				break;
+				
+			case 99:
 				algorthm();
 				break;
 
@@ -47,6 +60,39 @@ public class MainController {
 
 	}
 
+	private static void staticTags() {
+
+		//twitter Authentication
+		String ConsumerKey = "v7cIWGoF4tnB8xCX2VQDvFfeg";
+		String ConsumerSecret = "QluGAaYXULyo9GBJT7G5CFDOPqOhrMhKIUiPNWlBjTqf3sPv8Y";
+		String AccessToken ="245278759-XnJon4fbGFNYdbW15nDZU4jt2syx0CFMTfbWpGRG";
+		String AccessTokenSecret="nDo3Rl3IGTMtweBhOEoize2L8vDrfnnDRbQ6yU9FyvvoV"; 
+
+
+
+		// DB connection
+		DbConnection db = new DbConnection(originalDB,"root","","offline");
+		
+		Listener listener ;
+
+
+		try {
+		
+
+				listener = new Listener(db,ConsumerKey,ConsumerSecret,AccessToken,AccessTokenSecret);
+				System.out.println("The system will listen on:");
+				String tags[] = {"مطر","امطار","أمطار","المطر","الامطار","الأمطار","السيل","السيول","غرق","الجو","فيضان","سيل","سيول","امطار","الامطار","الشتاء"};
+				listener.startListening(tags);
+			
+				System.out.println("Error!!!");
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
 	private static void collector(){
 
 
@@ -56,15 +102,6 @@ public class MainController {
 		String AccessToken ="245278759-XnJon4fbGFNYdbW15nDZU4jt2syx0CFMTfbWpGRG";
 		String AccessTokenSecret="nDo3Rl3IGTMtweBhOEoize2L8vDrfnnDRbQ6yU9FyvvoV"; 
 
-		/*
-		ConfigurationBuilder ob =new ConfigurationBuilder(); 
-		ob.setDebugEnabled(true)
-		.setOAuthConsumerKey(ConsumerKey)
-		.setOAuthConsumerSecret(ConsumerSecret)
-		.setOAuthAccessToken(AccessToken)
-		.setOAuthAccessTokenSecret(AccessTokenSecret);
-		Twitter twitter = new TwitterFactory(ob.build()).getInstance();
-*/
 
 
 		// DB connection

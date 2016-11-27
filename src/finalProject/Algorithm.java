@@ -14,11 +14,11 @@ public class Algorithm {
 	private ResultSet result;
 	private String offline;
 	private String optimized;
-	private String[][] emotin;
+	private String[] emotionWord;
+	private int[][] emotionWeight;
 	private Stack<String> tweet;
 	private int resultCounter;
-
-	private int positiveEmotin, negativeEmotin, positiveNum, negativeNum;
+	private int positiveEmotion, negativeEmotion, positiveNum, negativeNum;
 
 	public Algorithm(String url, String username, String password, String offline, String optimized) {
 
@@ -32,7 +32,7 @@ public class Algorithm {
 
 			resultCounter = 0;
 
-			positiveEmotin = negativeEmotin = positiveNum = negativeNum = 0;
+			positiveEmotion = negativeEmotion = positiveNum = negativeNum = 0;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -43,12 +43,15 @@ public class Algorithm {
 	public void startAgorthm() {
 
 		retrieveEmotion();
+		System.out.println("retrieveEmotion is Done!");
 		retrevtweets();
-
+		System.out.println("retrevtweets is Done!");
+		emotionFinder();
+		System.out.println("emotionFinder is Done!");
 		calculateEmotionalScore();
-
-		System.out.println(positiveEmotin + "\n" + positiveNum);
-		System.out.println(negativeEmotin + "\n" + negativeNum);
+		
+		System.out.println("Done !!!!!!!");
+	
 	}
 
 	public void algorithm() {
@@ -57,9 +60,9 @@ public class Algorithm {
 			int maximumIteration = 0;
 			int t = 0;
 			while (t <= maximumIteration) {
-				for (int U = 0; U < emotin.length; U++) {// U Sets of users.
-					for (int I = 0; I < emotin.length; I++) {// I Sets of items.
-						for (int T = 0; T < emotin.length; T++) {// T Sets of
+				for (int U = 0; U < emotionWord.length; U++) {// U Sets of users.
+					for (int I = 0; I < emotionWord.length; I++) {// I Sets of items.
+						for (int T = 0; T < emotionWord.length; T++) {// T Sets of
 																	// tags.
 							calculateEmotionalScore();
 							calculateItemTagRelevance();
@@ -68,13 +71,13 @@ public class Algorithm {
 
 				}
 
-				for (int U = 0; U < emotin.length; U++) {
+				for (int U = 0; U < emotionWord.length; U++) {
 					calculateUserUserSimilarity();
 				}
-				for (int I = 0; I < emotin.length; I++) {
+				for (int I = 0; I < emotionWord.length; I++) {
 					calculateItemItemSimilarity();
 				}
-				for (int T = 0; T < emotin.length; T++) {
+				for (int T = 0; T < emotionWord.length; T++) {
 					calculateTagTagSimilarity();
 				}
 
@@ -86,25 +89,44 @@ public class Algorithm {
 	}
 
 	private void calculateEmotionalScore() {
-		String testedTweet = null;
-		int temp = 0;
-		while (!tweet.isEmpty()) {
-			testedTweet = tweet.pop();
-			for (int i = 0; i < emotin.length; i++) {
-				if (testedTweet.contains(emotin[i][0])) {
-					temp = Integer.parseInt(emotin[i][1]);// casting String t
-															// int
-					if (temp < 0) {
-						negativeNum++;
-						negativeEmotin = negativeEmotin + temp;
-					} else {
-						positiveNum++;
-						positiveEmotin = positiveEmotin + temp;
-					}
-
+		
+		
+		try {
+			
+			for (int i = 0; i < emotionWeight.length; i++) {
+				
+				System.out.println("This Emotion: "+emotionWeight[i]+" "
+						+ "ID is: "+emotionWeight[i][0]+" "
+						+ "Weight is: "+emotionWeight[i][1]+" "
+						+ "Used: "+emotionWeight[i][2]+" Time "
+						+ "The Total Weight is: "+(emotionWeight[i][1]*emotionWeight[i][2]));
+				
+				if (emotionWeight[i][1] < 0) {
+					negativeNum=+emotionWeight[i][2];
+					negativeEmotion =+ emotionWeight[i][1];
+				} else {
+					positiveNum=+emotionWeight[i][2];
+					positiveEmotion =+ emotionWeight[i][1];
 				}
-			}
+			}//end of for
+			
+			System.out.println("The Number of negative Emotions is: "+negativeNum+" "
+					+ "The Sum weight of negativity is: "+negativeEmotion);
+			
+			System.out.println("The Number of positive Emotions is: "+positiveNum+" "
+					+ "The Sum weight of positivity is: "+positiveEmotion);
+			
+			System.out.println("The Total Number Emotions is: "+(positiveEmotion+negativeEmotion)+" | "
+					+ ((positiveEmotion*100)/(positiveEmotion+negativeEmotion))+"% Positive "
+							+ ((negativeEmotion*100)/(positiveEmotion+negativeEmotion))+"% Negative");
+			
+			
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
 	}
 
 	private void retrevtweets() {
@@ -181,46 +203,52 @@ public class Algorithm {
 	}
 
 	private void emotionFinder() {
+		
 		try {
+			
+			String testedTweet = null;
+			while (!tweet.isEmpty()) {
+				testedTweet = tweet.pop();
+				for (int i = 0; i < emotionWord.length; i++) {
+					if (testedTweet.contains(emotionWord[i])) {
+						emotionWeight[i][2]++;//may not work you should check the default value
+																// int
+					/*	if (temp < 0) {
+							negativeNum++;
+							negativeemotion = negativeemotion + temp;
+						} else {
+							positiveNum++;
+							positiveemotion = positiveemotion + temp;
+						}*/
 
-			if (retrieveEmotion()) {
-
+					}
+				}
 			}
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	private boolean retrieveEmotion() {
 		try {
 
 			PreparedStatement countQuery, retrieveQuery;
-			retrieveQuery = connection.prepareStatement("SELECT * FROM " + optimized + ".emotion"); // to
-																									// retrieve
-																									// the
-																									// emotion
-			countQuery = connection.prepareStatement("SELECT COUNT(*)AS total FROM " + optimized + ".emotion "); // to
-																													// know
-																													// how
-																													// many
-																													// emotion
-																													// we
-																													// have
+			retrieveQuery = connection.prepareStatement("SELECT * FROM " + optimized + ".emotion"); // to retrieve the emotion
+			countQuery = connection.prepareStatement("SELECT COUNT(*)AS total FROM " + optimized + ".emotion "); // to know how many emotion we have
 			result = countQuery.executeQuery();
 			result.next();
-			emotin = new String[result.getInt("total")][2];
-
+			emotionWord = new String[result.getInt("total")];
+			emotionWeight = new int[result.getInt("total")][3];
 			result = retrieveQuery.executeQuery();
 
-			for (int i = 0; i < emotin.length; i++) { // to store the emotion in
+			for (int i = 0; i < emotionWord.length; i++) { // to store the emotion in
 														// array
 				result.next();
-				emotin[i][0] = result.getString("keyword");// to insert it in
-															// the table "has
-															// emo"
-				emotin[i][1] = result.getString("weight");
+				emotionWord[i] = result.getString("keyword");// to insert it in the table "has emo"
+				emotionWeight[i][0] = result.getInt("keyword_id");
+				emotionWeight[i][1] = result.getInt("weight");
 			}
 
 			return true;
