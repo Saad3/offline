@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Stack;
 
 public class Algorithm {
@@ -79,8 +78,8 @@ public class Algorithm {
 	}
 
 	private void calculateEmotionalScoreForOneCity(String States) {
+		
 		System.out.println("The Result for "+States);
-
 		
 		try {
 			int positiveEmotion, negativeEmotion, positiveNum, negativeNum;
@@ -96,78 +95,92 @@ public class Algorithm {
 						+ "The Total Weight is: "+(emotionWeight[i][1]*emotionWeight[i][2]));
 				
 				if (emotionWeight[i][1] < 0) {
+					
 					negativeNum=negativeNum+emotionWeight[i][2];
 					negativeEmotion =negativeEmotion+ emotionWeight[i][1];
+					
 				} else {
+					
 					positiveNum=positiveNum+emotionWeight[i][2];
 					positiveEmotion =positiveEmotion+ emotionWeight[i][1];
+					
 				}
 			}//end of for
 			//TODO fix the problem
 			System.out.println("The Result for "+States+"is:");
 			
-			System.out.println("The Number of negative Emotions is: "+negativeNum+" "
+			System.out.println("The Number of negative Emotions is: "+negativeNum+""
 					+ "The Sum weight of negativity is: "+negativeEmotion);
 			
 			System.out.println("The Number of positive Emotions is: "+positiveNum+" "
 					+ "The Sum weight of positivity is: "+positiveEmotion);
 			
 			System.out.println("The Total Number Emotions is: "+(positiveEmotion+negativeEmotion)+" | "
-					+ ((positiveEmotion*100)/(positiveEmotion+negativeEmotion))+"% Positive "
-							+ ((negativeEmotion*100)/(positiveEmotion+negativeEmotion))+"% Negative");
+					+ ((positiveEmotion*100)/(positiveEmotion+negativeEmotion))+"% Positive"
+					+ ((negativeEmotion*100)/(positiveEmotion+negativeEmotion))+"% Negative");
+			
 			
 			this.positiveEmotion = this.positiveEmotion + positiveEmotion;
 			this.negativeEmotion = this.negativeEmotion + negativeEmotion;
+			
 			this.positiveNum = this.positiveNum + positiveNum;
 			this.negativeNum = this.negativeNum + negativeNum;
 
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 		
 	}
 
 	private void retrevtweets(String states_id) {
+	
 		try {
+			
 			setResultCounter();
-
+			
 			int startNum, endNum, i;
 			i = 0;
 			startNum = 0;
 			endNum = 500;
 
 			while (i < resultCounter) {
+				
 				PreparedStatement res;
-				res = connection
-						.prepareStatement("SELECT textual_content FROM " + optimized + ".item "
+				res = connection.
+						prepareStatement("SELECT textual_content FROM " + optimized + ".item "
 										+ "INNER JOIN " + optimized + ".user "
 										+ "WHERE " + optimized + ".user.states_id =?"
 										+ "limit ?, ?");
+				
 				res.setString(1, states_id);
 				res.setInt(2, startNum);
 				res.setInt(3, endNum);
 				result = res.executeQuery();
+				
 				while (result.next()) {
 					tweet.push(result.getString("textual_content"));
 					i++;
 					result.next();
-
 				}
+				
 				startNum = endNum + 1;
+				
 				if (endNum + 500 > resultCounter)
 					endNum = resultCounter;
 				else
 					endNum = +500;
 
 			}
+			
 			System.out.println(i + "\t" + resultCounter);
 
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 
+		
 	}
 
 	public void setResultCounter() {// TODO fix
@@ -270,69 +283,8 @@ public class Algorithm {
 
 	}
 	
-	
-	
-	public void algorithm() {
 
-		try {
-			int maximumIteration = 0;
-			int t = 0;
-			while (t <= maximumIteration) {
-				for (int U = 0; U < emotionWord.length; U++) {// U Sets of users.
-					for (int I = 0; I < emotionWord.length; I++) {// I Sets of items.
-						for (int T = 0; T < emotionWord.length; T++) {// T Sets of
-																	// tags.
-						//	calculateEmotionalScore();
-							calculateItemTagRelevance();
-						}
-					}
 
-				}
-
-				for (int U = 0; U < emotionWord.length; U++) {
-					calculateUserUserSimilarity();
-				}
-				for (int I = 0; I < emotionWord.length; I++) {
-					calculateItemItemSimilarity();
-				}
-				for (int T = 0; T < emotionWord.length; T++) {
-					calculateTagTagSimilarity();
-				}
-
-			}
-
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-	}
-
-	private void calculateTagTagSimilarity() {
-		// TODO Auto-generated method stub
-
-	}
-
-	private void calculateItemItemSimilarity() {
-		// TODO Auto-generated method stub
-
-	}
-
-	private void calculateUserUserSimilarity() {
-		// TODO Auto-generated method stub
-
-	}
-
-	private void calculateItemTagRelevance() {
-		// TODO Auto-generated method stub
-
-	}
-
-	
-	
-	
-	
-	
-	
-	//////////////////////////////////////////////
 	
 	private void retrevtweets() {
 		try {
@@ -391,8 +343,7 @@ public class Algorithm {
 			e.printStackTrace();
 		}
 	}
-	
-	
+		
 	private void calculateEmotionalScoreForOneCity( ) {
 
 		
@@ -445,5 +396,68 @@ public class Algorithm {
 		}
 		
 	}
+	
+	
+	
+	
+	///////////////////////////////////////
+	
+	
+	public void algorithm() {
+
+		try {
+			int maximumIteration = 0;
+			int t = 0;
+			while (t <= maximumIteration) {
+				for (int U = 0; U < emotionWord.length; U++) {// U Sets of users.
+					for (int I = 0; I < emotionWord.length; I++) {// I Sets of items.
+						for (int T = 0; T < emotionWord.length; T++) {// T Sets of
+																	// tags.
+						//	calculateEmotionalScore();
+							calculateItemTagRelevance();
+						}
+					}
+
+				}
+
+				for (int U = 0; U < emotionWord.length; U++) {
+					calculateUserUserSimilarity();
+				}
+				for (int I = 0; I < emotionWord.length; I++) {
+					calculateItemItemSimilarity();
+				}
+				for (int T = 0; T < emotionWord.length; T++) {
+					calculateTagTagSimilarity();
+				}
+
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+
+	private void calculateTagTagSimilarity() {
+		// TODO Auto-generated method stub
+
+	}
+
+	private void calculateItemItemSimilarity() {
+		// TODO Auto-generated method stub
+
+	}
+
+	private void calculateUserUserSimilarity() {
+		// TODO Auto-generated method stub
+
+	}
+
+	private void calculateItemTagRelevance() {
+		// TODO Auto-generated method stub
+
+	}
+
+	
+	
 	
 }

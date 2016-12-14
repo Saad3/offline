@@ -67,47 +67,43 @@ public class Cleaner {
 			PreparedStatement query;
 			query = connection.prepareStatement("INSERT INTO  "+optimized+".item "
 					+ "SELECT offline.item.item_id , offline.item.user_id , offline.item.textual_content ,offline.item.tag_count ,offline.item.timestamp "
-					+ "FROM offline.item WHERE ((offline.item.url_count < 2 ) and ("+offline+".item.tag_count < 4 )) "); //copy item
+					+ "FROM offline.item "
+					+ "WHERE ((offline.item.url_count < 2 ) "
+					+ "and ("+offline+".item.tag_count < 4 )) "); //copy item
 			
 			query.executeUpdate();
-			System.out.println("Done copying the item");
+			System.out.println("Copying the item is done!");
 			
-			query = connection.prepareStatement("INSERT INTO "+optimized+".user SELECT "+offline+".user.user_id ,"+offline+".user.city_id ,"+offline+".user.states_id "
-					+ "FROM "+offline+".user "); //copy user
+			query = connection.prepareStatement("INSERT INTO "+optimized+".user "
+					+ "SELECT DISTINCT "+offline+".user.user_id ,"+offline+".user.city_id ,"+offline+".user.states_id "
+					+ "FROM "+offline+".user"); //copy user
 			query.executeUpdate();
-			System.out.println("Done copying the user");
+			System.out.println("Copying the user is done!");
+				
+			query = connection.prepareStatement("INSERT INTO `"+optimized+"`.`contain` "
+					+ "SELECT "+offline+".`contain`.`item_id`, "+offline+".`contain`.`tag_id` "
+					+ "FROM "+offline+".`contain` , `"+optimized+"`.`item` "
+					+ "WHERE   "+offline+".`contain`.`item_id` = "+optimized+".`item`.`item_id`"); //copy contain
 			
-			query = connection.prepareStatement("DELETE FROM  "+optimized+".user  WHERE "+optimized+".user.user_id NOT IN(SELECT "+optimized+".item.user_id FROM "+optimized+".item)"); //copy contain
-			//query.executeUpdate();
-			
-			System.out.println("Done cleanibn the user");
-			
-			
-			/*
-			INSERT INTO optimized_offline_db.user
-			SELECT DISTINCT offline.user.user_id , offline.user.city_id, offline.user.states_id
-			FROM offline.user
-			JOIN optimized_offline_db.item
-			ON offline.user.user_id=optimized_offline_db.item.user_id 
-			  
-			 
-			  */
-			
-			
-			/*	
-			query = connection.prepareStatement("INSERT INTO  "+optimized+".contain SELECT * FROM "+offline+".contain"
-					+ "WHERE "+offline+".contain.item_id IN (SELECT "+optimized+".item.item_id FROM "+optimized+".item)"); //copy contain
 			query.executeUpdate();
-			System.out.println("Done copying the contain");
+			System.out.println("Copying the contain is done! ");
 			
-			query = connection.prepareStatement("INSERT INTO  "+optimized+".tags SELECT * FROM "+offline+".tags"); //copy tag
+			query = connection.prepareStatement("INSERT INTO "+optimized+".`tags` "
+					+ "SELECT DISTINCT "+offline+".`tags`.`tag_id` , "+offline+".`tags`.`keyword`, "+offline+".`tags`.`add_time`  "
+					+ "FROM "+offline+".`tags`, "+optimized+".`contain` "
+					+ "WHERE "+offline+".`tags`.`tag_id` = "+optimized+".`contain`.`tag_id`"); //copy tag
 			query.executeUpdate();
-			System.out.println("Done copying the tags");
+			System.out.println("Copying the tags is done!");
 			
-			query = connection.prepareStatement("INSERT INTO  "+optimized+".geotag SELECT * FROM "+offline+".geotag"); //copy tag
+			query = connection.prepareStatement("INSERT INTO `optimized_offline_db`.`geotag` "
+					+ "SELECT `offline`.`geotag`.`item_id` , `offline`.`geotag`.`latitude` , `offline`.`geotag`.`longitude` "
+					+ "FROM `offline`.`geotag` , `optimized_offline_db`.`item` "
+					+ "WHERE `offline`.`geotag`.`item_id`=`optimized_offline_db`.`item`.`item_id`"); //copy tag
 			query.executeUpdate();
-			System.out.println("Done copying the geotag");*/
+			
+			System.out.println("Copying the geotag is done!");
 
+			
 		
 		
 		
@@ -170,6 +166,11 @@ public class Cleaner {
 				query.executeUpdate();
 
 			}
+			
+			
+			
+			//update null value
+			
 			
 			
 			
