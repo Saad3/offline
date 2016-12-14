@@ -5,13 +5,14 @@ import java.util.Scanner;
 
 public class Cleaner {
 
+	
 	private Connection connection;
-//	private Statement statement;
 	private ResultSet result;
 	private String[][] city;
 	private String offline;
 	private String optimized;
 
+	
 	public Cleaner(String url, String username, String password, String offline, String optimized) {
 
 		try {
@@ -30,6 +31,7 @@ public class Cleaner {
 	public void startClean() {
 		
 		try {
+			
 			System.out.println("Enter 1 to find the city form the user pio or user location\n"
 					+ "Enter 2 to Start copying the Data to the optmized DB\n"
 					+ "Or Enter 0 to exit the Cleaner\n");
@@ -47,21 +49,23 @@ public class Cleaner {
 				break;
 			case 2:
 				copier();
+				updateUnlocatedUsers();
 				break;
 			case 0:
 				break;
 					
 			}
 			
+			input.close();
+			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 	}
 	
 	private void copier(){
-		//this method res
+
 		try {
 			
 			PreparedStatement query;
@@ -119,16 +123,12 @@ public class Cleaner {
 		try {
 
 			PreparedStatement countQuery, retrieveQuery;
-			retrieveQuery = connection.prepareStatement("SELECT * FROM `cities` WHERE 1");
+			retrieveQuery = connection.prepareStatement("SELECT * FROM "+optimized+".`cities` WHERE 1");
 			countQuery = connection.prepareStatement("SELECT COUNT(*)AS total FROM `cities` ");
 			result = countQuery.executeQuery();
 			result.next();
 			city = new String[result.getInt("total")][4];
-
 			result = retrieveQuery.executeQuery();
-
-			// 0 will hold states number 1 will hold city name in arabic 2 in english
-			//while (result.next()) {
 				
 				for (int i = 0; i < city.length; i++) {
 					result.next();
@@ -137,20 +137,17 @@ public class Cleaner {
 					city[i][2] = result.getString("arabic");
 					city[i][3] = result.getString("english");
 					
-
 				}
-			//}
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 	}
 
 	private void cleanCityName(){
+		
 		try {
-			
 			
 			PreparedStatement query;
 			for (int i = 0; i < city.length; i++) {
@@ -165,20 +162,33 @@ public class Cleaner {
 				query.setString(6,"%"+city[i][3]+"%");
 				query.executeUpdate();
 
-			}
+			}			
 			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void updateUnlocatedUsers(){
+		
+		
+		try {
 			
+			PreparedStatement query;
 			
-			//update null value
-			
-			
+			query = connection.prepareStatement("UPDATE `optimized_offline_db`.user SET `city_id`=0,`states_id`=0 "
+					+ "WHERE `optimized_offline_db`.`user`.`city_id` IS NULL");
+
+			query.executeUpdate();
 			
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//		;
-
+		
+	
+	
 	}
+	
+	
 }

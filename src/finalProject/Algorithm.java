@@ -57,16 +57,17 @@ public class Algorithm {
 	
 	}
 
-	private void calculateEmotionalScoreForCities() { // you can't call this method before calling retrieveCityNames()
+	private void calculateEmotionalScoreForCities() { 
+		
+		// you can't call this method before calling retrieveCityNames()
 		
 		try {
 			
 			for (int i = 0; i < city.length; i++) {
-				retrevtweets(city[i][0]);
-				calculateEmotionalScoreForOneCity(city[i][3]);
+				retrieveTweetsForOneStates(city[i][0]);
+				calculateEmotionalScoreForOneState(city[i][3]);
 			}
-			retrevtweets("NULL");
-			calculateEmotionalScoreForOneCity("unlocated");
+			
 			
 		} catch (Exception e) {
 			System.out.println("error in calculateEmotionalScoreForCity()");
@@ -77,13 +78,14 @@ public class Algorithm {
 		
 	}
 
-	private void calculateEmotionalScoreForOneCity(String States) {
+	private void calculateEmotionalScoreForOneState(String StateName) {
 		
-		System.out.println("The Result for "+States);
+		System.out.println("The Result for "+StateName);
 		
 		try {
 			int positiveEmotion, negativeEmotion, positiveNum, negativeNum;
 			positiveEmotion = negativeEmotion = positiveNum = negativeNum = 0;
+			
 			int emotionWeight[][]= emotionFinder(originalEmotionWeight);
 			
 			for (int i = 0; i < emotionWeight.length; i++) {
@@ -107,7 +109,7 @@ public class Algorithm {
 				}
 			}//end of for
 			//TODO fix the problem
-			System.out.println("The Result for "+States+"is:");
+			System.out.println("The Result for "+StateName+"is:");
 			
 			System.out.println("The Number of negative Emotions is: "+negativeNum+""
 					+ "The Sum weight of negativity is: "+negativeEmotion);
@@ -134,7 +136,7 @@ public class Algorithm {
 		
 	}
 
-	private void retrevtweets(String states_id) {
+	private void retrieveTweetsForOneStates(String states_id) {
 	
 		try {
 			
@@ -149,14 +151,16 @@ public class Algorithm {
 				
 				PreparedStatement res;
 				res = connection.
-						prepareStatement("SELECT textual_content FROM " + optimized + ".item "
-										+ "INNER JOIN " + optimized + ".user "
-										+ "WHERE " + optimized + ".user.states_id =?"
-										+ "limit ?, ?");
+						prepareStatement("SELECT textual_content "
+								+ "FROM " + optimized + ".item , " + optimized + ".user "
+								+ "WHERE " + optimized + ".user.states_id =?"
+								+ "AND " + optimized + ".item.user_id =  " + optimized + ".user.user_id "
+								+ "limit ?, ?");
 				
 				res.setString(1, states_id);
 				res.setInt(2, startNum);
 				res.setInt(3, endNum);
+				
 				result = res.executeQuery();
 				
 				while (result.next()) {
@@ -173,6 +177,7 @@ public class Algorithm {
 					endNum = +500;
 
 			}
+			
 			
 			System.out.println(i + "\t" + resultCounter);
 
@@ -254,8 +259,12 @@ public class Algorithm {
 		try {
 
 			PreparedStatement countQuery, retrieveQuery;
-			retrieveQuery = connection.prepareStatement("SELECT * FROM " + optimized + ".cities WHERE " +optimized+ ".cities.parent_id < 14");//TODO Fix
-			countQuery = connection.prepareStatement("SELECT COUNT(*)AS total FROM " + optimized + ".cities ");
+			retrieveQuery = connection.prepareStatement("SELECT * FROM " + optimized + ".cities "
+					+ "WHERE " +optimized+ ".cities.parent_id < 14");
+			//TODO Fix
+			countQuery = connection.prepareStatement("SELECT COUNT(*)AS total "
+					+ "FROM " + optimized + ".cities ");
+			
 			result = countQuery.executeQuery();
 			result.next();
 			city = new String[result.getInt("total")][4];
@@ -283,7 +292,12 @@ public class Algorithm {
 
 	}
 	
+	private void print(){
+		
+	}
 
+	
+	
 
 	
 	private void retrevtweets() {
@@ -368,7 +382,6 @@ public class Algorithm {
 					positiveEmotion =positiveEmotion+ (emotionWeight[i][1]*emotionWeight[i][2]);
 				}
 			}//end of for
-			//TODO fix the problem
 		
 
 			System.out.println("\nThe Total Number Emotions is: " + (positiveNum + negativeNum) + " | " 
@@ -391,7 +404,6 @@ public class Algorithm {
 			negativeNum = negativeNum + negativeNum;
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -400,64 +412,8 @@ public class Algorithm {
 	
 	
 	
-	///////////////////////////////////////
-	
-	
-	public void algorithm() {
-
-		try {
-			int maximumIteration = 0;
-			int t = 0;
-			while (t <= maximumIteration) {
-				for (int U = 0; U < emotionWord.length; U++) {// U Sets of users.
-					for (int I = 0; I < emotionWord.length; I++) {// I Sets of items.
-						for (int T = 0; T < emotionWord.length; T++) {// T Sets of
-																	// tags.
-						//	calculateEmotionalScore();
-							calculateItemTagRelevance();
-						}
-					}
-
-				}
-
-				for (int U = 0; U < emotionWord.length; U++) {
-					calculateUserUserSimilarity();
-				}
-				for (int I = 0; I < emotionWord.length; I++) {
-					calculateItemItemSimilarity();
-				}
-				for (int T = 0; T < emotionWord.length; T++) {
-					calculateTagTagSimilarity();
-				}
-
-			}
-
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-	}
-
-	private void calculateTagTagSimilarity() {
-		// TODO Auto-generated method stub
-
-	}
-
-	private void calculateItemItemSimilarity() {
-		// TODO Auto-generated method stub
-
-	}
-
-	private void calculateUserUserSimilarity() {
-		// TODO Auto-generated method stub
-
-	}
-
-	private void calculateItemTagRelevance() {
-		// TODO Auto-generated method stub
-
-	}
 
 	
-	
+
 	
 }
