@@ -149,7 +149,7 @@ public class MainController {
 	}
 
 	private static void algorthm(){
-		Algorithm algorithm = new Algorithm(originalDB,"root","","offline","optimized_offline_db");
+		Algorithm algorithm = new Algorithm(originalDB,"root","","optimized_offline_db");
 		
 		algorithm.startAgorthm();
 		
