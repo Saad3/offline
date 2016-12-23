@@ -197,6 +197,32 @@ public class Algorithm {
 		}
 
  	}
+ 	
+ 	private void test1RetrieveTweetsForOneStates(String states_id){
+ 		
+ 		try {
+ 			int id = Integer.parseInt(states_id);
+			PreparedStatement res;
+			res = connection.prepareStatement(
+					"SELECT `" + optimized + "`.`item`.`textual_content`" 
+							+ "FROM `" + optimized + "`.`item` "
+							+ "WHERE `" + optimized + "`.`item`.`states_id` = ?" );
+			
+			res.setString(1, states_id);
+			result = res.executeQuery();
+
+			while (result.next()) {
+				tweet.push(result.getString("textual_content"));
+				tweetsCounter[id]++;
+				result.next();
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+ 	}
 	
 	private void emotionFinderForStates(int stateId) {
 		

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 20, 2016 at 12:44 PM
+-- Generation Time: Dec 23, 2016 at 06:39 PM
 -- Server version: 10.1.16-MariaDB
 -- PHP Version: 5.6.24
 
@@ -251,8 +251,7 @@ INSERT INTO `cities` (`id`, `parent_id`, `english`, `arabic`, `latitude`, `longi
 
 CREATE TABLE `contain` (
   `item_id` varchar(255) NOT NULL,
-  `tag_id` varchar(255) NOT NULL,
-  `add_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `tag_id` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -327,8 +326,8 @@ CREATE TABLE `user` (
   `user_name` varchar(255) NOT NULL,
   `user_pio` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `location` varchar(255) DEFAULT NULL,
-  `city` varchar(50) DEFAULT NULL,
-  `states` varchar(5) DEFAULT NULL
+  `city_id` int(4) DEFAULT NULL,
+  `states_id` int(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -399,7 +398,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `tags`
 --
 ALTER TABLE `tags`
-  MODIFY `tag_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=398;
+  MODIFY `tag_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8316;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
