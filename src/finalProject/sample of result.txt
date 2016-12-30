@@ -1,0 +1,99 @@
+Foundational phase is Done!
+
+The Result For unlocated is:
+
+The Total Number Of tweets is :123529
+The Number Emotions is: 29028
+The Number Positive Emotions is: 21635
+The Number Negative Emotions is: 7393
+The Total Positive Emotion Wight is: 2126000
+The Total Negative Emotion Wight is: -581500
+Overall Result For This state is : 79% Positive And 21% Negative 
+
+
+The Result For Riyadh is:
+
+The Total Number Of tweets is :13534
+The Number Emotions is: 3741
+The Number Positive Emotions is: 2933
+The Number Negative Emotions is: 808
+The Total Positive Emotion Wight is: 290275
+The Total Negative Emotion Wight is: -64325
+Overall Result For This state is : 82% Positive And 18% Negative 
+
+
+The Result For Mecca is:
+
+The Total Number Of tweets is :2770
+The Number Emotions is: 624
+The Number Positive Emotions is: 482
+The Number Negative Emotions is: 142
+The Total Positive Emotion Wight is: 47725
+The Total Negative Emotion Wight is: -10850
+Overall Result For This state is : 81% Positive And 19% Negative 
+
+
+The Result For Sarqiyah is:
+
+The Total Number Of tweets is :2411
+The Number Emotions is: 581
+The Number Positive Emotions is: 436
+The Number Negative Emotions is: 145
+The Total Positive Emotion Wight is: 42750
+The Total Negative Emotion Wight is: -11825
+Overall Result For This state is : 78% Positive And 22% Negative 
+
+
+The Result For Qasim is:
+
+The Total Number Of tweets is :1907
+The Number Emotions is: 426
+The Number Positive Emotions is: 337
+The Number Negative Emotions is: 89
+The Total Positive Emotion Wight is: 33375
+The Total Negative Emotion Wight is: -6875
+Overall Result For This state is : 83% Positive And 17% Negative 
+
+
+The Result For Hudud-Samaliyah is:
+
+The Total Number Of tweets is :81
+The Number Emotions is: 16
+The Number Positive Emotions is: 15
+The Number Negative Emotions is: 1
+The Total Positive Emotion Wight is: 1500
+The Total Negative Emotion Wight is: -100
+Overall Result For This state is : 94% Positive And 6% Negative 
+
+
+The Result For Asir is:
+
+The Total Number Of tweets is :851
+The Number Emotions is: 207
+The Number Positive Emotions is: 147
+The Number Negative Emotions is: 60
+The Total Positive Emotion Wight is: 14525
+The Total Negative Emotion Wight is: -4700
+Overall Result For This state is : 76% Positive And 24% Negative 
+
+
+The Result For Jizan is:
+
+The Total Number Of tweets is :238
+The Number Emotions is: 49
+The Number Positive Emotions is: 38
+The Number Negative Emotions is: 11
+The Total Positive Emotion Wight is: 3625
+The Total Negative Emotion Wight is: -1000
+Overall Result For This state is : 78% Positive And 22% Negative 
+
+
+The Result For Bahah is:
+
+The Total Number Of tweets is :41
+The Number Emotions is: 10
+The Number Positive Emotions is: 8
+The Number Negative Emotions is: 2
+The Total Positive Emotion Wight is: 800
+The Total Negative Emotion Wight is: -200
+Overall Result For This state is : 80% Positive And 20% Negative 
