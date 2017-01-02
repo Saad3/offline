@@ -3,11 +3,7 @@ package finalProject;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
-/**
- * 
- * @author lenovo
- *
- */
+
 
 public class MainController {
 	private static String originalDB = "jdbc:mysql://localhost:3306/offline?useUnicode=yes&characterEncoding=UTF-8";
