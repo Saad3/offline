@@ -19,7 +19,7 @@ public class MainController {
 				+ "Welcome To Our Application!\n"
 				+ "Please Enter Your Choice:\n"
 				+ "1. Start Collecting Data Using Tags Generator\n"
-				+ "2. Start Collecting Data With Static Tags\n"
+				+ "2. Start Collecting Data Using Dynamic Tags\n"
 				+ "3.Run The Cleaner\n"
 				+ "99. Run The Algorithm\n"
 				+ "OR 0. Exit The Application"
@@ -33,7 +33,7 @@ public class MainController {
 				break;
 				
 			case 2:
-				staticTags();
+				dynamicTags();
 				break;
 			
 			case 3:
@@ -56,7 +56,7 @@ public class MainController {
 
 	}
 
-	private static void staticTags() {
+	private static void setTags(String tags[]) {
 
 		//twitter Authentication
 		String ConsumerKey = "v7cIWGoF4tnB8xCX2VQDvFfeg";
@@ -77,10 +77,8 @@ public class MainController {
 
 				listener = new Listener(db,ConsumerKey,ConsumerSecret,AccessToken,AccessTokenSecret);
 				System.out.println("The system will listen on:");
-				String tags[] = {"مطر","امطار","أمطار","المطر","الامطار","الأمطار","السيل","السيول","غرق","الجو","فيضان","سيل","سيول","امطار","الامطار","الشتاء"};
 				listener.startListening(tags);
 			
-				System.out.println("Error!!!");
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -150,4 +148,54 @@ public class MainController {
 		algorithm.startAgorthm();
 		
 	}
+
+
+	private static void dynamicTags(){
+	
+		
+		try {
+			
+			
+			
+			while (true) {		
+				System.out.println("listening list will be updated now !");
+				setTags(TagList());
+				TimeUnit.HOURS.sleep(setSleeptime()); // check listener.stop();
+
+			}
+			
+			
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+	
+
+	private static long setSleeptime() {
+		return 0;
+	}
+
+	private static String[] TagList(){
+		
+		int numberOfTags =0;
+		
+		String tags[] = new String[numberOfTags];
+		
+		//TODO sql
+		
+		
+		
+		
+		return tags;
+	}
+	
+//				String tags[] = {"مطر","امطار","أمطار","المطر","الامطار","الأمطار","السيل","السيول","غرق","الجو","فيضان","سيل","سيول","امطار","الامطار","الشتاء"};
+
+
+
 }
