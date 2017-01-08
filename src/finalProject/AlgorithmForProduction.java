@@ -200,12 +200,12 @@ public class AlgorithmForProduction {
  		try {
  			int id = Integer.parseInt(states_id);
 			PreparedStatement res;
-			res = connection.prepareStatement("SELECT " + optimized + ".item.textual_content"
-					+ "FROM " + optimized + ".item  , " + optimized + ".user , " + optimized + ".contain "
-					+ "WHERE " + optimized + ".contain.tag_id=?"
-					+ "AND " + optimized + ".contain.item_id=" + optimized + ".item.item_id"
-					+ "AND " + optimized + ".user.states_id = ?"
-					+ "AND " + optimized + ".user.user_id =" + optimized + ".item.user_id");
+			res = connection.prepareStatement("SELECT " + optimized + ".item.textual_content "
+					+ "FROM " + optimized + ".item , " + optimized + ".user , " + optimized + ".contain "
+					+ "WHERE " + optimized + ".contain.tag_id=? "
+					+ "AND " + optimized + ".contain.item_id=" + optimized + ".item.item_id "
+					+ "AND " + optimized + ".user.states_id = ? "
+					+ "AND " + optimized + ".user.user_id =" + optimized + ".item.user_id ");
 			
 			res.setInt(1, tagId);
 			res.setString(2, states_id);
@@ -293,7 +293,7 @@ public class AlgorithmForProduction {
 		try {
 			PreparedStatement query;
 			
-			query = connection.prepareStatement("INSERT INTO `result` (`query_id`, `state_id`, `number_of_tweet`, `numer_of_user`, `number_of_positive_emotion`,"
+			query = connection.prepareStatement("INSERT INTO " + optimized + ".result (`query_id`, `state_id`, `number_of_tweet`, `numer_of_user`, `number_of_positive_emotion`,"
 					+ " `number_of_negative_emotion`, `Positive Emotion_Wight`, `negative_emotion_wight`)"
 					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 			
@@ -305,15 +305,16 @@ public class AlgorithmForProduction {
 			query.setInt(6,resultSetForStates[stateId][3] );
 			query.setInt(7,resultSetForStates[stateId][2] );
 			query.setInt(8,resultSetForStates[stateId][4] );
-
-			/*
-			The Total Number Of tweets is :"+tweetsCounter[stateId]);
-			The Number Emotions is: " + (resultSetForStates[stateId][1] + resultSetForStates[stateId][3]));
-			The Number Positive Emotions is: " + resultSetForStates[stateId][1]);
-			The Number Negative Emotions is: "+  resultSetForStates[stateId][3]);
-			The Total Positive Emotion Wight is: " + resultSetForStates[stateId][2]);
-			The Total Negative Emotion Wight is: " + resultSetForStates[stateId][4]);
-			 */
+			
+			query.executeUpdate();
+			
+			
+			System.out.println("The Total Number Of tweets is :"+tweetsCounter[stateId]);
+			System.out.println("The Number Emotions is: " + (resultSetForStates[stateId][1] + resultSetForStates[stateId][3]));
+			System.out.println("The Number Positive Emotions is: " + resultSetForStates[stateId][1]);
+			System.out.println("The Number Negative Emotions is: "+  resultSetForStates[stateId][3]);
+			System.out.println("The Total Positive Emotion Wight is: " + resultSetForStates[stateId][2]);
+			System.out.println("The Total Negative Emotion Wight is: " + resultSetForStates[stateId][4]);
 		
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -329,7 +330,11 @@ public class AlgorithmForProduction {
 		try {
 			int numberOfUser=0;
 			PreparedStatement query;
-			query = connection.prepareStatement("SELECT COUNT(*)AS total FROM " + optimized + ".emotion "); // to know how many emotion we have
+			query = connection.prepareStatement("SELECT COUNT(*)AS total FROM " + optimized + ".emotion "
+					+ "WHERE " + optimized + ".user.states_id = ? "); // to know how many emotion we have
+		
+			query.setInt(1, stateId);
+
 			result = query.executeQuery();
 			result.next();
 			numberOfUser= result.getInt("total");

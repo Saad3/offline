@@ -18,15 +18,20 @@ public class MainController {
 		System.out.println(""
 				+ "Welcome To Our Application!\n"
 				+ "Please Enter Your Choice:\n"
+				+ "0. for productionMood \n"
 				+ "1. Start Collecting Data Using Tags Generator\n"
 				+ "2. Start Collecting Data Using Dynamic Tags\n"
 				+ "3.Run The Cleaner\n"
 				+ "99. Run The Algorithm\n"
-				+ "OR 0. Exit The Application"
+				+ "OR any key for Exit The Application"
 				+ "");
 		int key=0;
 			key = input.nextInt();
 			switch (key) {
+			
+			case 0:
+				productionMood();
+				break;
 			
 			case 1:
 				collector();
@@ -55,8 +60,16 @@ public class MainController {
 
 
 	}
+	
+	
+	private static void productionMood(){
+		ProductionMood productionMood=new ProductionMood(originalDB,"root","","offline","online_db","optimized_offline_db");
+		productionMood.startProductionMood();
+	}
+	
+	
 
-	private static void setTags(String tags[]) {
+ 	private static void setTags(String tags[]) {
 
 		//twitter Authentication
 		String ConsumerKey = "v7cIWGoF4tnB8xCX2VQDvFfeg";
@@ -144,7 +157,6 @@ public class MainController {
 
 	private static void algorthm(){
 		Algorithm algorithm = new Algorithm(originalDB,"root","","optimized_offline_db");
-		
 		algorithm.startAgorthm();
 		
 	}

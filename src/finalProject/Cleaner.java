@@ -151,8 +151,8 @@ public class Cleaner {
 			
 			PreparedStatement query;
 			for (int i = 0; i < city.length; i++) {
-				query = connection.prepareStatement("UPDATE "+offline+".user SET `city_id`=?,`states_id`=? WHERE "
-						+ "(location LIKE ? OR location LIKE ? "
+				query = connection.prepareStatement("UPDATE "+offline+".user SET `city_id`=?,`states_id`=? WHERE city_id is NULL "
+						+ "AND (location LIKE ? OR location LIKE ? "
 						+ "OR user_pio LIKE ? OR user_pio LIKE ?)");
 				query.setString(1,city[i][0]);
 				query.setString(2,city[i][1]);
@@ -161,7 +161,9 @@ public class Cleaner {
 				query.setString(5,"%"+city[i][2]+"%");//one for English
 				query.setString(6,"%"+city[i][3]+"%");
 				query.executeUpdate();
-
+				
+				
+				updateUnlocatedUsers();
 			}			
 			
 		} catch (SQLException e) {
